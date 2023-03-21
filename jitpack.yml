@@ -2,4 +2,6 @@ jdk:
   - openjdk16
 before_install:
   - chmod +x gradlew
-  - ./gradlew build
+install:
+  - echo "Running a custom install command"
+  - ./gradlew clean build assemble publishToMavenLocal
