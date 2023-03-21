@@ -9,10 +9,13 @@ import org.springframework.data.relational.core.mapping.Table
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
+import javax.annotation.processing.SupportedSourceVersion
+import javax.lang.model.SourceVersion
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import javax.tools.StandardLocation
 
+@SupportedSourceVersion(SourceVersion.RELEASE_16)
 class TableMetadataProcessor: AbstractProcessor() {
 
     private val map: MutableMap<String, MutableList<String>> = HashMap()
