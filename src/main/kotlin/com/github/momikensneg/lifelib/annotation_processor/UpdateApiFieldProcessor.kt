@@ -7,9 +7,7 @@ import javax.lang.model.SourceVersion
 @SupportedSourceVersion(SourceVersion.RELEASE_16)
 class UpdateApiFieldProcessor: AbstractFieldProcessor<UpdateApiField>() {
 
-    override fun getPostfix(): String = "UpdateDto"
-
-    override fun getPackageName(): String = "cy.pet.life.dto"
+    override fun getPostfix(): String = "UpdateRequest"
 
     override fun getAnnotation(): Class<UpdateApiField> = UpdateApiField::class.java
 

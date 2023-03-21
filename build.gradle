@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.github.momikensneg'
-version = '1.0.6'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -20,7 +20,7 @@ java {
 }
 
 wrapper {
-    gradleVersion = "7.3.3"
+    gradleVersion = "7.4.2"
     distributionType = Wrapper.DistributionType.ALL
 }
 

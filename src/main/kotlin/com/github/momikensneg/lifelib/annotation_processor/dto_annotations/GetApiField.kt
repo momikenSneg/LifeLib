@@ -1,3 +1,5 @@
 package com.github.momikensneg.lifelib.annotation_processor.dto_annotations
 
-annotation class GetApiField()
+@Target(AnnotationTarget.FIELD)
+@Retention(AnnotationRetention.SOURCE)
+annotation class GetApiField(val isNullable: Boolean)

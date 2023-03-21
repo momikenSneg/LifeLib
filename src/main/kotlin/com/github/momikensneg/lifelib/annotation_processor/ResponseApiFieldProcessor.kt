@@ -9,8 +9,6 @@ class ResponseApiFieldProcessor: AbstractFieldProcessor<ResponseApiField>() {
 
     override fun getPostfix(): String = "ResponseDto"
 
-    override fun getPackageName(): String = "cy.pet.life.dto"
-
     override fun getAnnotation(): Class<ResponseApiField> = ResponseApiField::class.java
 
     override fun getIsNullable(annotation: ResponseApiField): Boolean = annotation.isNullable

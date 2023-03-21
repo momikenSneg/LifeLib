@@ -10,6 +10,11 @@ import javax.tools.StandardLocation
 
 abstract class AbstractFieldProcessor<A>: AbstractProcessor() where A: Annotation {
 
+    companion object {
+        private const val OLD_PACKAGE_NAME = "dao"
+        private const val NEW_PACKAGE_NAME = "dto"
+    }
+
     private val map: MutableMap<String, MutableList<FieldInfo>> = HashMap()
 
     override fun init(env: ProcessingEnvironment?) {
@@ -45,7 +50,7 @@ abstract class AbstractFieldProcessor<A>: AbstractProcessor() where A: Annotatio
     private fun generateDtoClass(className: String, fields: MutableList<FieldInfo>) {
         val simpleName = className.substring(className.lastIndexOf('.') + 1)
         val newName = simpleName + getPostfix()
-        val packageName = "${getPackageName()}.${simpleName.lowercase()}"
+        val packageName = definePackageName(className)
 
         val kotlinFile = FileSpec.builder(packageName, newName)
         val classBuilder = TypeSpec.classBuilder(newName).addModifiers(KModifier.DATA)
@@ -57,23 +62,33 @@ abstract class AbstractFieldProcessor<A>: AbstractProcessor() where A: Annotatio
         }
         kotlinFile.addType(classBuilder.build())
 
-        val kotlinFileObject = processingEnv.filer.createResource(
-            StandardLocation.SOURCE_OUTPUT,
-            packageName, "$newName.kt"
-        )
-        kotlinFileObject.openWriter().use {
-            kotlinFile.build().writeTo(it)
-        }
-
+        writeFile(kotlinFile.build(), packageName, newName)
     }
 
     abstract fun getPostfix(): String
 
-    abstract fun getPackageName(): String
-
     abstract fun getAnnotation(): Class<A>
 
     abstract fun getIsNullable(annotation: A): Boolean
+
+    private fun writeFile(kotlinFile: FileSpec, packageName: String, name: String) {
+        val kotlinFileObject = processingEnv.filer.createResource(
+            StandardLocation.SOURCE_OUTPUT,
+            packageName, "$name.kt"
+        )
+        kotlinFileObject.openWriter().use {
+            kotlinFile.writeTo(it)
+        }
+    }
+    private fun definePackageName(className: String): String {
+        val lastDot = className.lastIndexOf('.')
+        return if (lastDot > 0) {
+            val oldPackageName = className.substring(0, lastDot)
+            oldPackageName.replace(OLD_PACKAGE_NAME, NEW_PACKAGE_NAME)
+        } else {
+            ""
+        }
+    }
 
     inner class FieldInfo(
         val name: String,

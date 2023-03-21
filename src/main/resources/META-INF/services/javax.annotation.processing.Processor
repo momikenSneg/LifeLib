@@ -1,4 +1,4 @@
-ru.momik.life.lib.annotation_processor.DtoFieldProcessor
-ru.momik.life.lib.annotation_processor.ResponseApiFieldProcessor
-ru.momik.life.lib.annotation_processor.UpdateApiFieldProcessor
-ru.momik.life.lib.annotation_processor.entity.TableMetadataProcessor
+com.github.momikensneg.lifelib.annotation_processor.DtoFieldProcessor
+com.github.momikensneg.lifelib.annotation_processor.ResponseApiFieldProcessor
+com.github.momikensneg.lifelib.annotation_processor.UpdateApiFieldProcessor
+com.github.momikensneg.lifelib.annotation_processor.entity.TableMetadataProcessor

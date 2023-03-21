@@ -1,9 +1,9 @@
 package com.github.momikensneg.lifelib.annotation_processor.entity
 
+import com.github.momikensneg.lifelib.annotation_processor.addStringProperty
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
-import com.github.momikensneg.lifelib.annotation_processor.addStringProperty
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import javax.annotation.processing.AbstractProcessor
@@ -16,7 +16,9 @@ import javax.tools.StandardLocation
 class TableMetadataProcessor: AbstractProcessor() {
 
     private val map: MutableMap<String, MutableList<String>> = HashMap()
-    private val POSTFIX = "_"
+    companion object {
+        private const val POSTFIX = "_"
+    }
 
     override fun init(env: ProcessingEnvironment?) {
         super.init(env)
@@ -30,7 +32,6 @@ class TableMetadataProcessor: AbstractProcessor() {
         }
 
         val elements = roundEnv.getElementsAnnotatedWith(Table::class.java)
-
         for (element in elements) {
             val fieldsClass = element.enclosingElement as TypeElement
             if (map.containsKey(fieldsClass.qualifiedName.toString())) {
@@ -41,24 +42,16 @@ class TableMetadataProcessor: AbstractProcessor() {
                 map[fieldsClass.qualifiedName.toString()] = list
             }
         }
-
         map.forEach { (k, v) ->
             generateMetadataClass(k, v)
         }
-
         return true
     }
 
     private fun generateMetadataClass(className: String, fields: MutableList<String>) {
         val simpleName = className.substring(className.lastIndexOf('.') + 1)
         val newName = simpleName + POSTFIX
-        var packageName: String?
-        val lastDot = className.lastIndexOf('.')
-        if (lastDot > 0) {
-            packageName = className.substring(0, lastDot)
-        } else {
-            return
-        }
+        val packageName = definePackageName(className)
 
         val kotlinFile = FileSpec.builder(packageName, newName)
         val abstractClass = TypeSpec.classBuilder(newName).addModifiers(KModifier.PUBLIC, KModifier.ABSTRACT)
@@ -71,12 +64,25 @@ class TableMetadataProcessor: AbstractProcessor() {
         abstractClass.addType(comp.build())
         kotlinFile.addType(abstractClass.build())
 
+        writeFile(kotlinFile.build(), packageName, newName)
+    }
+
+    private fun writeFile(kotlinFile: FileSpec, packageName: String, name: String) {
         val kotlinFileObject = processingEnv.filer.createResource(
             StandardLocation.SOURCE_OUTPUT,
-            packageName, "$newName.kt"
+            packageName, "$name.kt"
         )
         kotlinFileObject.openWriter().use {
-            kotlinFile.build().writeTo(it)
+            kotlinFile.writeTo(it)
+        }
+    }
+
+    private fun definePackageName(className: String): String {
+        val lastDot = className.lastIndexOf('.')
+        return if (lastDot > 0) {
+            className.substring(0, lastDot)
+        } else {
+            ""
         }
     }
 

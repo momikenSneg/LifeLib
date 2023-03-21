@@ -9,8 +9,6 @@ class DtoFieldProcessor: AbstractFieldProcessor<DtoField>() {
 
     override fun getPostfix(): String = "Dto"
 
-    override fun getPackageName(): String = "cy.pet.life.dto"
-
     override fun getAnnotation(): Class<DtoField> = DtoField::class.java
 
     override fun getIsNullable(annotation: DtoField): Boolean = annotation.isNullable
