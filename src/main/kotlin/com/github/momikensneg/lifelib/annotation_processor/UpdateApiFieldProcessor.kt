@@ -1,6 +1,6 @@
-package ru.momik.life.lib.annotation_processor
+package com.github.momikensneg.lifelib.annotation_processor
 
-import ru.momik.life.lib.annotation_processor.dto_annotations.UpdateApiField
+import com.github.momikensneg.lifelib.annotation_processor.dto_annotations.UpdateApiField
 import javax.annotation.processing.SupportedSourceVersion
 import javax.lang.model.SourceVersion
 

@@ -1,4 +1,0 @@
-io.github.momikensneg.annotation_processor.DtoFieldProcessor
-io.github.momikensneg.annotation_processor.ResponseApiFieldProcessor
-io.github.momikensneg.annotation_processor.UpdateApiFieldProcessor
-io.github.momikensneg.annotation_processor.entity.TableMetadataProcessor

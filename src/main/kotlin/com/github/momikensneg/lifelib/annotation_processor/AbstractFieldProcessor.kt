@@ -1,4 +1,4 @@
-package ru.momik.life.lib.annotation_processor
+package com.github.momikensneg.lifelib.annotation_processor
 
 import com.squareup.kotlinpoet.*
 import javax.annotation.processing.AbstractProcessor

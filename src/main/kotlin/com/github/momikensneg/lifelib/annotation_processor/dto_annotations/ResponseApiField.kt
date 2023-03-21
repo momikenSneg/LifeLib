@@ -1,4 +1,4 @@
-package ru.momik.life.lib.annotation_processor.dto_annotations
+package com.github.momikensneg.lifelib.annotation_processor.dto_annotations
 
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.SOURCE)

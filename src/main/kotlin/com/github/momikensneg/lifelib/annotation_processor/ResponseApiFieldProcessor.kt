@@ -1,6 +1,6 @@
-package io.github.momikensneg.annotation_processor
+package com.github.momikensneg.lifelib.annotation_processor
 
-import io.github.momikensneg.annotation_processor.dto_annotations.ResponseApiField
+import com.github.momikensneg.lifelib.annotation_processor.dto_annotations.ResponseApiField
 import javax.annotation.processing.SupportedSourceVersion
 import javax.lang.model.SourceVersion
 

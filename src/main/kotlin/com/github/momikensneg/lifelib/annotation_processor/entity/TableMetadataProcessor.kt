@@ -1,9 +1,9 @@
-package ru.momik.life.lib.annotation_processor.entity
+package com.github.momikensneg.lifelib.annotation_processor.entity
 
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
-import ru.momik.life.lib.annotation_processor.addStringProperty
+import com.github.momikensneg.lifelib.annotation_processor.addStringProperty
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import javax.annotation.processing.AbstractProcessor
