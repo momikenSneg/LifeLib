@@ -21,7 +21,11 @@ java {
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        mavenJava(MavenPublication) {
+            groupId = 'io.github.momikensneg'
+            artifactId = 'LifeLib'
+            version = '1.0.2'
+
             from components.java
         }
     }
