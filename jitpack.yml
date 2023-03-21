@@ -1,4 +1,7 @@
 jdk:
   - openjdk16
 before_install:
-  - ./scripts/prepareJitpackEnvironment.sh
+  - ./gradlew build
+install:
+  - echo "Running a custom install command"
+  - ./gradlew clean install
