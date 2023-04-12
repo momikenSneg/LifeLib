@@ -13,6 +13,7 @@ import javax.annotation.processing.SupportedSourceVersion
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
+import javax.lang.model.element.VariableElement
 import javax.tools.StandardLocation
 
 @SupportedSourceVersion(SourceVersion.RELEASE_16)
@@ -33,16 +34,17 @@ class TableMetadataProcessor: AbstractProcessor() {
         if (annotations.isEmpty()) {
             return false
         }
-
         val elements = roundEnv.getElementsAnnotatedWith(Table::class.java)
         for (element in elements) {
-            val fieldsClass = element.enclosingElement as TypeElement
-            if (map.containsKey(fieldsClass.qualifiedName.toString())) {
-                map[fieldsClass.qualifiedName.toString()]!!.add(getColumnName(element))
-            } else {
-                val list = ArrayList<String>()
-                list.add(getColumnName(element))
-                map[fieldsClass.qualifiedName.toString()] = list
+            val table = element as TypeElement
+            if (!map.containsKey(table.qualifiedName.toString())){
+                map[table.qualifiedName.toString()] = ArrayList()
+            }
+            val tableElements = table.enclosedElements
+            for (tableElement in tableElements){
+                if (tableElement is VariableElement){
+                    map[table.qualifiedName.toString()]!!.add(getColumnName(tableElement))
+                }
             }
         }
         map.forEach { (k, v) ->

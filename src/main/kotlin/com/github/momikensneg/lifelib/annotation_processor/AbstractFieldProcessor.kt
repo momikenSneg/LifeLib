@@ -50,7 +50,7 @@ abstract class AbstractFieldProcessor<A>: AbstractProcessor() where A: Annotatio
     private fun generateDtoClass(className: String, fields: MutableList<FieldInfo>) {
         val simpleName = className.substring(className.lastIndexOf('.') + 1)
         val newName = simpleName + getPostfix()
-        val packageName = definePackageName(className)
+        val packageName = definePackageName(className, simpleName)
 
         val kotlinFile = FileSpec.builder(packageName, newName)
         val classBuilder = TypeSpec.classBuilder(newName).addModifiers(KModifier.DATA)
@@ -80,11 +80,11 @@ abstract class AbstractFieldProcessor<A>: AbstractProcessor() where A: Annotatio
             kotlinFile.writeTo(it)
         }
     }
-    private fun definePackageName(className: String): String {
+    private fun definePackageName(className: String, simpleName: String): String {
         val lastDot = className.lastIndexOf('.')
         return if (lastDot > 0) {
             val oldPackageName = className.substring(0, lastDot)
-            oldPackageName.replace(OLD_PACKAGE_NAME, NEW_PACKAGE_NAME)
+            "${oldPackageName.replace(OLD_PACKAGE_NAME, NEW_PACKAGE_NAME)}.${simpleName.lowercase()}"
         } else {
             ""
         }
@@ -96,6 +96,7 @@ abstract class AbstractFieldProcessor<A>: AbstractProcessor() where A: Annotatio
         val isNullable: Boolean
     ) {
 
+        @OptIn(DelicateKotlinPoetApi::class)
         constructor(element: Element) : this(
             element.simpleName.toString(),
             element.asType().asTypeName(),
