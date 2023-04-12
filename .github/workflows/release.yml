@@ -1,14 +1,23 @@
+name: Releases
+
 on:
   push:
     tags:
       - "v*"
-
 #on: create
-
-name: Release
 jobs:
-  release:
-    name: Release GitHub Actions
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: technote-space/release-github-actions@v6
+      - uses: actions/checkout@v3
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "release.tar.gz,foo/*.txt"
+          bodyFile: "body.md"
+#  release:
+#    name: Release GitHub Actions
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: technote-space/release-github-actions@v6
